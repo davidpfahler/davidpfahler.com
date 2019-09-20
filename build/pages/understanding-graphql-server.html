@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>Understanding and Building a GraphQL Server</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="Explanations for the lesser understood parts of the GraphQL spec
+" />
+    <link rel="shortcut icon" href="http://localhost:4000/assets/images/favicon.png" type="image/png" />
+    <link rel="canonical" href="http://localhost:4000/understanding-graphql-server" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="David Pfahler" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Understanding and Building a GraphQL Server" />
+    <meta property="og:description" content="Note: This post first appeared on keywordbrain.com, a project that was dedicated to state-of-the-art SEO algorithms which has since been discontinued. If you are trying to build a GraphQL server today, you don’t have much choice: You pretty much have to use the reference implementation graphql-js. The problem is, though," />
+    <meta property="og:url" content="http://localhost:4000/understanding-graphql-server" />
+    <meta property="og:image" content="http://localhost:4000/assets/images/felix-mittermeier-Knwea-mLGAg-unsplash.jpg" />
+    <meta property="article:publisher" content="https://www.facebook.com/false" />
+    <meta property="article:author" content="https://www.facebook.com/false" />
+    <meta property="article:published_time" content="2015-07-22T12:18:00+02:00" />
+    <meta property="article:modified_time" content="2015-07-22T12:18:00+02:00" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Understanding and Building a GraphQL Server" />
+    <meta name="twitter:description" content="Note: This post first appeared on keywordbrain.com, a project that was dedicated to state-of-the-art SEO algorithms which has since been discontinued. If you are trying to build a GraphQL server today, you don’t have much choice: You pretty much have to use the reference implementation graphql-js. The problem is, though," />
+    <meta name="twitter:url" content="http://localhost:4000/" />
+    <meta name="twitter:image" content="http://localhost:4000/assets/images/felix-mittermeier-Knwea-mLGAg-unsplash.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="David Pfahler" />
+    <meta name="twitter:site" content="@davidpfahler" />
+    <meta name="twitter:creator" content="@davidpfahler" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "David Pfahler",
+        "logo": "http://localhost:4000/false"
+    },
+    "url": "http://localhost:4000/understanding-graphql-server",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:4000/assets/images/felix-mittermeier-Knwea-mLGAg-unsplash.jpg",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:4000/understanding-graphql-server"
+    },
+    "description": "Note: This post first appeared on keywordbrain.com, a project that was dedicated to state-of-the-art SEO algorithms which has since been discontinued. If you are trying to build a GraphQL server today, you don’t have much choice: You pretty much have to use the reference implementation graphql-js. The problem is, though,"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="Understanding and Building a GraphQL Server" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="http://localhost:4000/">David Pfahler</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">Home</a></li>
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+            
+                <a class="social-link social-link-tw" href="https://twitter.com/davidpfahler" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            
+        </div>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="22 July 2015">22 July 2015</time>
+                    
+                </section>
+                <h1 class="post-full-title">Understanding and Building a GraphQL Server</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/felix-mittermeier-Knwea-mLGAg-unsplash.jpg)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <p><em>Note: This post first appeared on keywordbrain.com, a project that was dedicated to state-of-the-art SEO algorithms which has since been discontinued.</em></p>
+
+<p>If you are trying to build a GraphQL server today, you don’t have much
+choice: You pretty much have to use the reference implementation
+<a href="https://github.com/graphql/graphql-js">graphql-js</a>. The problem is, though, that there is almost no
+documentation for it, yet.</p>
+
+<p>GraphQL has created quite some hype which led to a lot of pseudo code and
+speculation flying around. We tried to build a GraphQL server with
+graphql-js and will release an example project soon. However, we thought
+we would share our findings right now, so others don’t have to dig in
+the source code themselves.</p>
+
+<p>First of all, we want to point you to the excellent articles at
+<a href="https://github.com/mugli/learning-graphql">mugli/learning-graphql</a> by <a href="https://github.com/mugli">@mugli</a>. Chapters
+are being added over time, so this collection will only get better. If
+you want to start learning GraphQL, look no further.</p>
+
+<p>So, here are some things we wished someone had emphasised or explicitly
+stated:</p>
+
+<h2 id="a-graphql-server-has-one-schema">A GraphQL server has <em>one schema</em>.</h2>
+
+<p>The canonical way to resolve a GraphQL query is as follows, where
+<code class="highlighter-rouge">query</code> is the GraphQL query <em>string</em>:</p>
+
+<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=result.js"></script>
+
+<p>The fact that a) you have to supply the schema to the <code class="highlighter-rouge">graphql</code> function
+here and b) all the examples call it something relatively specific like
+<code class="highlighter-rouge">BlogSchema</code> led us to believe that there could potentially be multiple
+schemas. We would then also need a method of choosing which schema to
+use based on the contents of the request, which of course led to more
+confusion, as there should only be a single endpoint.</p>
+
+<p>So, a GraphQL server has a single schema.</p>
+
+<h2 id="this-schema-has-one-query-andor-one-mutation-parameter">This schema has <em>one query</em> and/or <em>one mutation</em> parameter.</h2>
+
+<p>The values for these two parameters are <code class="highlighter-rouge">GraphQLObjectType</code>s. We
+will get to what that means in just a second. Because a mutation is
+basically a “query with side effects”, from here on we will only talk
+about <code class="highlighter-rouge">query</code>.</p>
+
+<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=schema.js"></script>
+
+<p>The <code class="highlighter-rouge">RootQuery</code> is just an ordinary <code class="highlighter-rouge">GraphQLObjectType</code>. This kind of
+type has a <code class="highlighter-rouge">name</code> and <code class="highlighter-rouge">fields</code> property and each field can have a
+<code class="highlighter-rouge">type</code>, <code class="highlighter-rouge">args</code> and a <code class="highlighter-rouge">resolve</code> function property. Hence, you construct
+your schema for both query and mutation by nesting GraphQL types. The
+<code class="highlighter-rouge">RootQuery</code> is thus just the top-most GraphQL type, but per-se nothing
+special.</p>
+
+<p>This did surprise us, because we were under the impression that you
+could have multiple root types, as some earlier articles suggested.
+Well, you cannot — any more. In fact, the GraphQL spec evolved to only
+allow one root type per operation (query or mutation), but it used to
+allow multiple root types. Now, all your client-side queries need to
+fit into this one GraphQL type (respectively it’s fields).</p>
+
+<h2 id="the-name-you-give-to-your-root-graphql-type-is-arbitrary">The <code class="highlighter-rouge">name</code> you give to your root GraphQL type is arbitrary.</h2>
+
+<p>Because there is only one root type, it really doesn’t matter what name
+you give to it. We call it <code class="highlighter-rouge">Query</code> by convention.</p>
+
+<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=rootquery.js"></script>
+
+<h2 id="fields-on-the-root-type-are-your-public-api">Fields on the root type are your “public API”.</h2>
+
+<p><em>Update:</em> <a href="https://github.com/dschafer">@dschafer</a> expanded the GraphQL README to better explain this
+in <a href="https://github.com/facebook/graphql/pull/66">PR #66</a>.</p>
+
+<p>The only way to access or mutate data is by accessing fields of the
+root (i.e. top-most) GraphQL type. Let’s say you constructed the
+following schema:</p>
+
+<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=publicapi.js"></script>
+
+<p>This is a mouth-full. What is happening here? The <code class="highlighter-rouge">RootQuery</code> defines
+only one field, namely <code class="highlighter-rouge">article</code> of type <code class="highlighter-rouge">BlogArticle</code> with an argument
+called <code class="highlighter-rouge">id</code>. The <code class="highlighter-rouge">BlogArticle</code> type is — like <code class="highlighter-rouge">RootQuery</code> — a
+<code class="highlighter-rouge">GraphQLObjectType</code>. It, again, defines fields, among others, the
+<code class="highlighter-rouge">author</code> field of type <code class="highlighter-rouge">BlogAuthor</code>. And now we finally get down to
+the lowest level, as the fields on <code class="highlighter-rouge">BlogAuthor</code> are all GraphQL
+primitives.</p>
+
+<p>Now notice that — in this setup — you cannot access an author directly.
+The only way to access this type and its fields is via the <code class="highlighter-rouge">article</code>
+field on the <code class="highlighter-rouge">RootQuery</code> type. This is why you could consider the root
+type your public API.</p>
+
+<p>If you wanted to expose the authors directly, you’d need to add an
+author field (possibly with args like <code class="highlighter-rouge">id</code>) to the <code class="highlighter-rouge">fields</code> object of
+the <code class="highlighter-rouge">RootQuery</code>. Please note that in the example above the <code class="highlighter-rouge">article</code>
+function fetches an article object that has an <code class="highlighter-rouge">author</code> property. It
+implicitly fetches the author when fetching the article. If you added
+an <code class="highlighter-rouge">author</code> field to the <code class="highlighter-rouge">RootQuery</code>, this field would also need a
+resolve function that fetches the required author data.</p>
+
+<h2 id="a-resolve-function-can-return-a-promise">A <code class="highlighter-rouge">resolve()</code> function can return a <code class="highlighter-rouge">Promise</code>.</h2>
+
+<p>In case you are wondering how the <code class="highlighter-rouge">article</code> function above goes about
+its business of fetching an article from a database, the key is that
+you can call any function inside <code class="highlighter-rouge">resolve</code> that either returns your
+required data or a Promise, which eventually resolves with said data.
+This allows you to make the necessary async calls to your storage backend.</p>
+
+<h2 id="you-should-start-using-named-queries">You should start using named queries.</h2>
+
+<p>Named queries are generally optional, but have a couple of benefits.
+For example, the following two queries are equivalent</p>
+
+<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=named.js"></script>
+
+<p>but here is why you should start to name your queries:</p>
+
+<p>First, you can have multiple named queries per document. Now, while you
+only send one query per request, having multiple named queries in one
+document allows you to put them all in one <code class="highlighter-rouge">.graphql</code> file. Second,
+only named queries allow the use of variables, e.g.:</p>
+
+<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=namedvariables.js"></script>
+
+<p>If you send this query along with the variable <code class="highlighter-rouge">$someId</code> in the arguments,
+the actual query is assembled on the server, avoiding string concatenation
+on the client.</p>
+
+<p>This is not only less of a burden on the client, but also more secure,
+as you can no longer run into injection security vulnerabilities.</p>
+
+<p>In <code class="highlighter-rouge">graphql-js</code> these arguments are supplied as the fourth argument to
+the graphql function:</p>
+
+<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=arguments.js"></script>
+
+<p>You would typically need to get these <code class="highlighter-rouge">arguments</code> from the http request or
+whatever other transport your particular server implementation is using.
+A spec for graphql-http is currently being codified.</p>
+
+<hr />
+
+<p>We hope this article shed some light on the so far lesser understood
+parts of the spec and how they affect the server implementations. We plan
+on using GraphQL quite heavily for KeywordBrain and will continue to
+document our findings here. In the meantime, you should follow <a href="https://twitter.com/davidpfahler">@davidpfahler</a>
+and <a href="https://twitter.com/mxlje">@mxlje</a> on Twitter.</p>
+
+<p>We’d also like to thank <a href="https://github.com/dschafer">Dan Schafer</a> and everybody in the
+<a href="https://graphql-slack.herokuapp.com">GraphQL Slack channel</a> for their feedback on this post and
+answering questions about the nitty gritty details.</p>
+
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                        <section class="author-card">
+                            
+                                <img class="author-profile-image" src="/assets/images/davidpfahler.jpg" alt="davidpfahler" />
+                            
+                            <section class="author-card-content">
+                                <h4 class="author-card-name"><a href="/author/davidpfahler">David Pfahler</a></h4>
+                                
+                                    <p>I am a German trainee lawyer, software engineer and data scientist. I write about these topics here.</p>
+                                
+                            </section>
+                        </section>
+                        <div class="post-full-footer-right">
+                            <a class="author-card-button" href="/author/davidpfahler">Read More</a>
+                        </div>
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="http://localhost:4000/">
+            
+            <span>David Pfahler</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Understanding and Building a GraphQL Server</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Understanding+and+Building+a+GraphQL+Server&amp;url=https://davidpfahler.github.iounderstanding-graphql-server"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://davidpfahler.github.iounderstanding-graphql-server"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="http://localhost:4000/">David Pfahler</a> &copy; 2019</section>
+                <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyller/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    <a href="https://twitter.com/davidpfahler" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'false', 'auto');
+  ga('send', 'pageview');
+
+ </script>
+
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>

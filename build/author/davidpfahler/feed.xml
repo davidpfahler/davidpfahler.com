@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
+  <link href="http://localhost:4000/author/davidpfahler/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2019-09-20T16:03:19+02:00</updated>
+  <id>http://localhost:4000/author/davidpfahler/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">David Pfahler | </title>
+  
+
+  
+    <subtitle>I am a German trainee lawyer, software engineer, and data scientist.</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">Understanding and Building a GraphQL Server</title>
+      <link href="http://localhost:4000/understanding-graphql-server" rel="alternate" type="text/html" title="Understanding and Building a GraphQL Server" />
+      <published>2015-07-22T12:18:00+02:00</published>
+      <updated>2015-07-22T12:18:00+02:00</updated>
+      <id>http://localhost:4000/understanding-graphql-server</id>
+      <content type="html" xml:base="http://localhost:4000/understanding-graphql-server">&lt;p&gt;If you are trying to build a GraphQL server today, you don’t have much
+choice: You pretty much have to use the reference implementation
+&lt;a href=&quot;https://github.com/graphql/graphql-js&quot;&gt;graphql-js&lt;/a&gt;. The problem is, though, that there is almost no
+documentation for it, yet.&lt;/p&gt;
+
+&lt;p&gt;GraphQL has created quite some hype which led to a lot of pseudo code and
+speculation flying around. We tried to build a GraphQL server with
+graphql-js and will release an example project soon. However, we thought
+we would share our findings right now, so others don’t have to dig in
+the source code themselves.&lt;/p&gt;
+
+&lt;p&gt;First of all, we want to point you to the excellent articles at
+&lt;a href=&quot;https://github.com/mugli/learning-graphql&quot;&gt;mugli/learning-graphql&lt;/a&gt; by &lt;a href=&quot;https://github.com/mugli&quot;&gt;@mugli&lt;/a&gt;. Chapters
+are being added over time, so this collection will only get better. If
+you want to start learning GraphQL, look no further.&lt;/p&gt;
+
+&lt;p&gt;So, here are some things we wished someone had emphasised or explicitly
+stated:&lt;/p&gt;
+
+&lt;h2 id=&quot;a-graphql-server-has-one-schema&quot;&gt;A GraphQL server has &lt;em&gt;one schema&lt;/em&gt;.&lt;/h2&gt;
+
+&lt;p&gt;The canonical way to resolve a GraphQL query is as follows, where
+&lt;code class=&quot;highlighter-rouge&quot;&gt;query&lt;/code&gt; is the GraphQL query &lt;em&gt;string&lt;/em&gt;:&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=result.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;The fact that a) you have to supply the schema to the &lt;code class=&quot;highlighter-rouge&quot;&gt;graphql&lt;/code&gt; function
+here and b) all the examples call it something relatively specific like
+&lt;code class=&quot;highlighter-rouge&quot;&gt;BlogSchema&lt;/code&gt; led us to believe that there could potentially be multiple
+schemas. We would then also need a method of choosing which schema to
+use based on the contents of the request, which of course led to more
+confusion, as there should only be a single endpoint.&lt;/p&gt;
+
+&lt;p&gt;So, a GraphQL server has a single schema.&lt;/p&gt;
+
+&lt;h2 id=&quot;this-schema-has-one-query-andor-one-mutation-parameter&quot;&gt;This schema has &lt;em&gt;one query&lt;/em&gt; and/or &lt;em&gt;one mutation&lt;/em&gt; parameter.&lt;/h2&gt;
+
+&lt;p&gt;The values for these two parameters are &lt;code class=&quot;highlighter-rouge&quot;&gt;GraphQLObjectType&lt;/code&gt;s. We
+will get to what that means in just a second. Because a mutation is
+basically a “query with side effects”, from here on we will only talk
+about &lt;code class=&quot;highlighter-rouge&quot;&gt;query&lt;/code&gt;.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=schema.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;RootQuery&lt;/code&gt; is just an ordinary &lt;code class=&quot;highlighter-rouge&quot;&gt;GraphQLObjectType&lt;/code&gt;. This kind of
+type has a &lt;code class=&quot;highlighter-rouge&quot;&gt;name&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;fields&lt;/code&gt; property and each field can have a
+&lt;code class=&quot;highlighter-rouge&quot;&gt;type&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;args&lt;/code&gt; and a &lt;code class=&quot;highlighter-rouge&quot;&gt;resolve&lt;/code&gt; function property. Hence, you construct
+your schema for both query and mutation by nesting GraphQL types. The
+&lt;code class=&quot;highlighter-rouge&quot;&gt;RootQuery&lt;/code&gt; is thus just the top-most GraphQL type, but per-se nothing
+special.&lt;/p&gt;
+
+&lt;p&gt;This did surprise us, because we were under the impression that you
+could have multiple root types, as some earlier articles suggested.
+Well, you cannot — any more. In fact, the GraphQL spec evolved to only
+allow one root type per operation (query or mutation), but it used to
+allow multiple root types. Now, all your client-side queries need to
+fit into this one GraphQL type (respectively it’s fields).&lt;/p&gt;
+
+&lt;h2 id=&quot;the-name-you-give-to-your-root-graphql-type-is-arbitrary&quot;&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;name&lt;/code&gt; you give to your root GraphQL type is arbitrary.&lt;/h2&gt;
+
+&lt;p&gt;Because there is only one root type, it really doesn’t matter what name
+you give to it. We call it &lt;code class=&quot;highlighter-rouge&quot;&gt;Query&lt;/code&gt; by convention.&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=rootquery.js&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;fields-on-the-root-type-are-your-public-api&quot;&gt;Fields on the root type are your “public API”.&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Update:&lt;/em&gt; &lt;a href=&quot;https://github.com/dschafer&quot;&gt;@dschafer&lt;/a&gt; expanded the GraphQL README to better explain this
+in &lt;a href=&quot;https://github.com/facebook/graphql/pull/66&quot;&gt;PR #66&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The only way to access or mutate data is by accessing fields of the
+root (i.e. top-most) GraphQL type. Let’s say you constructed the
+following schema:&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=publicapi.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;This is a mouth-full. What is happening here? The &lt;code class=&quot;highlighter-rouge&quot;&gt;RootQuery&lt;/code&gt; defines
+only one field, namely &lt;code class=&quot;highlighter-rouge&quot;&gt;article&lt;/code&gt; of type &lt;code class=&quot;highlighter-rouge&quot;&gt;BlogArticle&lt;/code&gt; with an argument
+called &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;. The &lt;code class=&quot;highlighter-rouge&quot;&gt;BlogArticle&lt;/code&gt; type is — like &lt;code class=&quot;highlighter-rouge&quot;&gt;RootQuery&lt;/code&gt; — a
+&lt;code class=&quot;highlighter-rouge&quot;&gt;GraphQLObjectType&lt;/code&gt;. It, again, defines fields, among others, the
+&lt;code class=&quot;highlighter-rouge&quot;&gt;author&lt;/code&gt; field of type &lt;code class=&quot;highlighter-rouge&quot;&gt;BlogAuthor&lt;/code&gt;. And now we finally get down to
+the lowest level, as the fields on &lt;code class=&quot;highlighter-rouge&quot;&gt;BlogAuthor&lt;/code&gt; are all GraphQL
+primitives.&lt;/p&gt;
+
+&lt;p&gt;Now notice that — in this setup — you cannot access an author directly.
+The only way to access this type and its fields is via the &lt;code class=&quot;highlighter-rouge&quot;&gt;article&lt;/code&gt;
+field on the &lt;code class=&quot;highlighter-rouge&quot;&gt;RootQuery&lt;/code&gt; type. This is why you could consider the root
+type your public API.&lt;/p&gt;
+
+&lt;p&gt;If you wanted to expose the authors directly, you’d need to add an
+author field (possibly with args like &lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;) to the &lt;code class=&quot;highlighter-rouge&quot;&gt;fields&lt;/code&gt; object of
+the &lt;code class=&quot;highlighter-rouge&quot;&gt;RootQuery&lt;/code&gt;. Please note that in the example above the &lt;code class=&quot;highlighter-rouge&quot;&gt;article&lt;/code&gt;
+function fetches an article object that has an &lt;code class=&quot;highlighter-rouge&quot;&gt;author&lt;/code&gt; property. It
+implicitly fetches the author when fetching the article. If you added
+an &lt;code class=&quot;highlighter-rouge&quot;&gt;author&lt;/code&gt; field to the &lt;code class=&quot;highlighter-rouge&quot;&gt;RootQuery&lt;/code&gt;, this field would also need a
+resolve function that fetches the required author data.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-resolve-function-can-return-a-promise&quot;&gt;A &lt;code class=&quot;highlighter-rouge&quot;&gt;resolve()&lt;/code&gt; function can return a &lt;code class=&quot;highlighter-rouge&quot;&gt;Promise&lt;/code&gt;.&lt;/h2&gt;
+
+&lt;p&gt;In case you are wondering how the &lt;code class=&quot;highlighter-rouge&quot;&gt;article&lt;/code&gt; function above goes about
+its business of fetching an article from a database, the key is that
+you can call any function inside &lt;code class=&quot;highlighter-rouge&quot;&gt;resolve&lt;/code&gt; that either returns your
+required data or a Promise, which eventually resolves with said data.
+This allows you to make the necessary async calls to your storage backend.&lt;/p&gt;
+
+&lt;h2 id=&quot;you-should-start-using-named-queries&quot;&gt;You should start using named queries.&lt;/h2&gt;
+
+&lt;p&gt;Named queries are generally optional, but have a couple of benefits.
+For example, the following two queries are equivalent&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=named.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;but here is why you should start to name your queries:&lt;/p&gt;
+
+&lt;p&gt;First, you can have multiple named queries per document. Now, while you
+only send one query per request, having multiple named queries in one
+document allows you to put them all in one &lt;code class=&quot;highlighter-rouge&quot;&gt;.graphql&lt;/code&gt; file. Second,
+only named queries allow the use of variables, e.g.:&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=namedvariables.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;If you send this query along with the variable &lt;code class=&quot;highlighter-rouge&quot;&gt;$someId&lt;/code&gt; in the arguments,
+the actual query is assembled on the server, avoiding string concatenation
+on the client.&lt;/p&gt;
+
+&lt;p&gt;This is not only less of a burden on the client, but also more secure,
+as you can no longer run into injection security vulnerabilities.&lt;/p&gt;
+
+&lt;p&gt;In &lt;code class=&quot;highlighter-rouge&quot;&gt;graphql-js&lt;/code&gt; these arguments are supplied as the fourth argument to
+the graphql function:&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=arguments.js&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;You would typically need to get these &lt;code class=&quot;highlighter-rouge&quot;&gt;arguments&lt;/code&gt; from the http request or
+whatever other transport your particular server implementation is using.
+A spec for graphql-http is currently being codified.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;We hope this article shed some light on the so far lesser understood
+parts of the spec and how they affect the server implementations. We plan
+on using GraphQL quite heavily for KeywordBrain and will continue to
+document our findings here. In the meantime, you should follow &lt;a href=&quot;https://twitter.com/davidpfahler&quot;&gt;@davidpfahler&lt;/a&gt;
+and &lt;a href=&quot;https://twitter.com/mxlje&quot;&gt;@mxlje&lt;/a&gt; on Twitter.&lt;/p&gt;
+
+&lt;p&gt;We’d also like to thank &lt;a href=&quot;https://github.com/dschafer&quot;&gt;Dan Schafer&lt;/a&gt; and everybody in the
+&lt;a href=&quot;https://graphql-slack.herokuapp.com&quot;&gt;GraphQL Slack channel&lt;/a&gt; for their feedback on this post and
+answering questions about the nitty gritty details.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note: This post first appeared on keywordbrain.com, a project that was dedicated to state-of-the-art SEO algorithms which has since been discontinued.&lt;/em&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name>David Pfahler</name>
+        
+        
+      </author>
+
+      
+
+      
+
+      
+        <summary type="html">If you are trying to build a GraphQL server today, you don’t have much choice: You pretty much have to use the reference implementation graphql-js. The problem is, though, that there is almost no documentation for it, yet.</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>
