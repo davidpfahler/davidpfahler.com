@@ -11,3 +11,4 @@ jobs:
         uses: davidpfahler/jekyll-deploy-gh-pages@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_DEPLOY_KEY: ${{ secrets.GIT_DEPLOY_KEY }}
