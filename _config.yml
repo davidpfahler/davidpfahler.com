@@ -44,7 +44,13 @@ permalink: /:title
 
 # gems and other configs
 plugins_dir: [_plugins]
-plugins: [jekyll-paginate, jekyll-feed]
+plugins:
+  - jekyll-paginate
+  - jekyll-feed
+  - jekyll-compress-images
+
+compress_images:
+  images_path: "assets/images/**/*.{gif,png,jpg,jpeg,svg}"
 
 feed:
   path: feed.xml
@@ -95,3 +101,4 @@ exclude:
   - changelog.md
   - "*.Rmd"
   - .git*
+  - _compress_images_cache.yml
