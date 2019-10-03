@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
     <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
     <!-- highlight.js -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="/assets/built/highlight.js.9.12.0.min.css">
     <style>.hljs { background: none; }</style>
 
     <!--[if IE]>
@@ -187,7 +187,10 @@ stated:</p>
 <p>The canonical way to resolve a GraphQL query is as follows, where
 <code class="highlighter-rouge">query</code> is the GraphQL query <em>string</em>:</p>
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=result.js"></script>
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">graphql(</span><span class="k">schema</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="err">).</span><span class="n">then</span><span class="p">(</span><span class="err">(</span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="err">//</span><span class="w"> </span><span class="n">do</span><span class="w"> </span><span class="n">something</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="n">here</span><span class="w">
+</span><span class="p">}</span><span class="err">);</span><span class="w">
+</span></code></pre></div></div>
 
 <p>The fact that a) you have to supply the schema to the <code class="highlighter-rouge">graphql</code> function
 here and b) all the examples call it something relatively specific like
@@ -205,7 +208,11 @@ will get to what that means in just a second. Because a mutation is
 basically a “query with side effects”, from here on we will only talk
 about <code class="highlighter-rouge">query</code>.</p>
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=schema.js"></script>
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">let</span><span class="w"> </span><span class="k">schema</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">GraphQLSchema</span><span class="p">(</span><span class="err">{</span><span class="w">
+  </span><span class="n">query</span><span class="p">:</span><span class="w"> </span><span class="n">RootQuery</span><span class="p">,</span><span class="w">
+  </span><span class="n">mutation</span><span class="p">:</span><span class="w"> </span><span class="n">RootMutation</span><span class="w">
+</span><span class="err">}</span><span class="p">)</span><span class="err">;</span><span class="w">
+</span></code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">RootQuery</code> is just an ordinary <code class="highlighter-rouge">GraphQLObjectType</code>. This kind of
 type has a <code class="highlighter-rouge">name</code> and <code class="highlighter-rouge">fields</code> property and each field can have a
@@ -226,7 +233,11 @@ fit into this one GraphQL type (respectively it’s fields).</p>
 <p>Because there is only one root type, it really doesn’t matter what name
 you give to it. We call it <code class="highlighter-rouge">Query</code> by convention.</p>
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=rootquery.js"></script>
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">let</span><span class="w"> </span><span class="err">RootQuery</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">new</span><span class="w"> </span><span class="err">GraphQLObjectType(</span><span class="p">{</span><span class="w">
+  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="err">'</span><span class="n">Query</span><span class="err">'</span><span class="p">,</span><span class="w">
+  </span><span class="n">fields</span><span class="p">:</span><span class="w"> </span><span class="err">…</span><span class="w">
+</span><span class="p">}</span><span class="err">)</span><span class="w">
+</span></code></pre></div></div>
 
 <h2 id="fields-on-the-root-type-are-your-public-api">Fields on the root type are your “public API”.</h2>
 
@@ -237,7 +248,42 @@ in <a href="https://github.com/facebook/graphql/pull/66">PR #66</a>.</p>
 root (i.e. top-most) GraphQL type. Let’s say you constructed the
 following schema:</p>
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=publicapi.js"></script>
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">let</span><span class="w"> </span><span class="err">BlogAuthor</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">new</span><span class="w"> </span><span class="err">GraphQLObjectType(</span><span class="p">{</span><span class="w">
+  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="err">'</span><span class="n">Author</span><span class="err">'</span><span class="p">,</span><span class="w">
+  </span><span class="n">fields</span><span class="p">:</span><span class="w"> </span><span class="err">()</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="err">(</span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="n">GraphQLString</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="n">GraphQLString</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="err">)</span><span class="w">
+</span><span class="p">}</span><span class="err">)</span><span class="w">
+
+</span><span class="err">let</span><span class="w"> </span><span class="err">BlogArticle</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">new</span><span class="w"> </span><span class="err">GraphQLObjectType(</span><span class="p">{</span><span class="w">
+  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="err">'</span><span class="n">Article</span><span class="err">'</span><span class="p">,</span><span class="w">
+  </span><span class="n">fields</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">GraphQLNonNull</span><span class="p">(</span><span class="n">GraphQLString</span><span class="p">)</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="n">isPublished</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="n">GraphQLBoolean</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="n">author</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="n">BlogAuthor</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="n">GraphQLString</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="n">body</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="n">GraphQLString</span><span class="w"> </span><span class="p">},</span><span class="w">
+    </span><span class="n">keywords</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">GraphQLList</span><span class="p">(</span><span class="n">GraphQLString</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="err">)</span><span class="w">
+
+</span><span class="err">let</span><span class="w"> </span><span class="err">RootQuery</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">new</span><span class="w"> </span><span class="err">GraphQLObjectType(</span><span class="p">{</span><span class="w">
+  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="err">'</span><span class="n">Query</span><span class="err">'</span><span class="p">,</span><span class="w">
+  </span><span class="n">fields</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">article</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="n">BlogArticle</span><span class="p">,</span><span class="w">
+      </span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="n">GraphQLID</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span><span class="w">
+      </span><span class="err">//</span><span class="w"> </span><span class="n">fetches</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">article</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">database</span><span class="p">,</span><span class="w"> </span><span class="n">including</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">author</span><span class="w">
+      </span><span class="n">resolve</span><span class="p">:</span><span class="w"> </span><span class="err">(</span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="n">id</span><span class="p">}</span><span class="err">)</span><span class="w"> </span><span class="err">=&gt;</span><span class="w"> </span><span class="n">article</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="err">)</span><span class="w">
+
+</span><span class="err">let</span><span class="w"> </span><span class="k">schema</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">GraphQLSchema</span><span class="p">(</span><span class="err">{</span><span class="w">
+  </span><span class="n">query</span><span class="p">:</span><span class="w"> </span><span class="n">RootQuery</span><span class="w">
+</span><span class="err">}</span><span class="p">)</span><span class="err">;</span><span class="w">
+</span></code></pre></div></div>
 
 <p>This is a mouth-full. What is happening here? The <code class="highlighter-rouge">RootQuery</code> defines
 only one field, namely <code class="highlighter-rouge">article</code> of type <code class="highlighter-rouge">BlogArticle</code> with an argument
@@ -273,7 +319,12 @@ This allows you to make the necessary async calls to your storage backend.</p>
 <p>Named queries are generally optional, but have a couple of benefits.
 For example, the following two queries are equivalent</p>
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=named.js"></script>
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">//</span><span class="w"> </span><span class="err">named</span><span class="w">
+</span><span class="k">query</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="p">}</span><span class="w">
+
+</span><span class="err">//</span><span class="w"> </span><span class="err">unnamed</span><span class="w">
+</span><span class="p">{</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <p>but here is why you should start to name your queries:</p>
 
@@ -282,7 +333,12 @@ only send one query per request, having multiple named queries in one
 document allows you to put them all in one <code class="highlighter-rouge">.graphql</code> file. Second,
 only named queries allow the use of variables, e.g.:</p>
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=namedvariables.js"></script>
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">query</span><span class="w"> </span><span class="n">Foo</span><span class="p">(</span><span class="nv">$someId</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">foo</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nv">$someId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">bar</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <p>If you send this query along with the variable <code class="highlighter-rouge">$someId</code> in the arguments,
 the actual query is assembled on the server, avoiding string concatenation
@@ -294,7 +350,9 @@ as you can no longer run into injection security vulnerabilities.</p>
 <p>In <code class="highlighter-rouge">graphql-js</code> these arguments are supplied as the fourth argument to
 the graphql function:</p>
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=arguments.js"></script>
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">let</span><span class="w"> </span><span class="err">arguments</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">someId</span><span class="p">:</span><span class="w"> </span><span class="err">"1234"</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="err">graphql(</span><span class="k">schema</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">,</span><span class="w"> </span><span class="n">null</span><span class="p">,</span><span class="w"> </span><span class="n">arguments</span><span class="err">)</span><span class="w">
+</span></code></pre></div></div>
 
 <p>You would typically need to get these <code class="highlighter-rouge">arguments</code> from the http request or
 whatever other transport your particular server implementation is using.
@@ -426,14 +484,6 @@ answering questions about the nitty gritty details.</p>
 
     <!-- The big email subscribe modal content -->
     
-
-    <!-- highlight.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
-    <script>$(document).ready(function() {
-      $('pre code').each(function(i, block) {
-        hljs.highlightBlock(block);
-      });
-    });</script>
 
     <!-- jQuery + Fitvids, which makes all video embeds responsive -->
     <script
