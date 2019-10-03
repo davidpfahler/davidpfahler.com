@@ -5,10 +5,16 @@ This was forked from [Jasper 2](https://github.com/jekyller/jasper2) and heavily
 ## Installation
 
 `bundle install`
+`nvm use 10`
+`npm install`
 
 ## Development process
 
 `bundle exec jekyll serve`
+
+If you change the theme itself:
+
+`npm start`
 
 ## Build process
 
