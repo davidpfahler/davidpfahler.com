@@ -46,7 +46,11 @@ stated:
 The canonical way to resolve a GraphQL query is as follows, where
 `query` is the GraphQL query *string*:
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=result.js"></script>
+```graphql
+graphql(schema, query).then((result) => {
+  // do something with the result here
+});
+```
 
 The fact that a) you have to supply the schema to the `graphql` function
 here and b) all the examples call it something relatively specific like
@@ -65,7 +69,12 @@ will get to what that means in just a second. Because a mutation is
 basically a “query with side effects”, from here on we will only talk
 about `query`.
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=schema.js"></script>
+```graphql
+let schema = new GraphQLSchema({
+  query: RootQuery,
+  mutation: RootMutation
+});
+```
 
 The `RootQuery` is just an ordinary `GraphQLObjectType`. This kind of
 type has a `name` and `fields` property and each field can have a
@@ -87,8 +96,12 @@ fit into this one GraphQL type (respectively it’s fields).
 Because there is only one root type, it really doesn’t matter what name
 you give to it. We call it `Query` by convention.
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=rootquery.js"></script>
-
+```graphql
+let RootQuery = new GraphQLObjectType({
+  name: 'Query',
+  fields: …
+})
+```
 
 ## Fields on the root type are your “public API”.
 
@@ -102,8 +115,43 @@ The only way to access or mutate data is by accessing fields of the
 root (i.e. top-most) GraphQL type. Let’s say you constructed the
 following schema:
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=publicapi.js"></script>
+```graphql
+let BlogAuthor = new GraphQLObjectType({
+  name: 'Author',
+  fields: () => ({
+    id: { type: GraphQLString },
+    name: { type: GraphQLString }
+  })
+})
 
+let BlogArticle = new GraphQLObjectType({
+  name: 'Article',
+  fields: {
+    id: { type: new GraphQLNonNull(GraphQLString) },
+    isPublished: { type: GraphQLBoolean },
+    author: { type: BlogAuthor },
+    title: { type: GraphQLString },
+    body: { type: GraphQLString },
+    keywords: { type: new GraphQLList(GraphQLString) }
+  }
+})
+
+let RootQuery = new GraphQLObjectType({
+  name: 'Query',
+  fields: {
+    article: {
+      type: BlogArticle,
+      args: { id: { type: GraphQLID } },
+      // fetches an article from the database, including the author
+      resolve: (_, {id}) => article(id)
+    }
+  }
+})
+
+let schema = new GraphQLSchema({
+  query: RootQuery
+});
+```
 
 This is a mouth-full. What is happening here? The `RootQuery` defines
 only one field, namely `article` of type `BlogArticle` with an argument
@@ -141,7 +189,13 @@ This allows you to make the necessary async calls to your storage backend.
 Named queries are generally optional, but have a couple of benefits.
 For example, the following two queries are equivalent
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=named.js"></script>
+```graphql
+// named
+query Foo { foo }
+
+// unnamed
+{ foo }
+```
 
 but here is why you should start to name your queries:
 
@@ -150,7 +204,13 @@ only send one query per request, having multiple named queries in one
 document allows you to put them all in one `.graphql` file. Second,
 only named queries allow the use of variables, e.g.:
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=namedvariables.js"></script>
+```graphql
+query Foo($someId: String) {
+  foo(id: $someId) {
+    bar
+  }
+}
+```
 
 If you send this query along with the variable `$someId` in the arguments,
 the actual query is assembled on the server, avoiding string concatenation
@@ -162,7 +222,10 @@ as you can no longer run into injection security vulnerabilities.
 In `graphql-js` these arguments are supplied as the fourth argument to
 the graphql function:
 
-<script src="https://gist.github.com/mxlje/80545ec28a7841ce2411.js?file=arguments.js"></script>
+```graphql
+let arguments = { someId: "1234" }
+graphql(schema, query, null, arguments)
+```
 
 You would typically need to get these `arguments` from the http request or
 whatever other transport your particular server implementation is using.
