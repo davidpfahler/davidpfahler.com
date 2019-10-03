@@ -100,6 +100,7 @@ exclude:
   - package-lock.json
   - Rakefile
   - README.md
+  - README_original.md
   - script.py
   - changelog.md
   - "*.Rmd"
