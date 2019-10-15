@@ -8,6 +8,21 @@
     
       
       <item>
+        <title>How to train a fastai model and run it in the browser</title>
+        
+          <description>&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, exporting it to &lt;a href=&quot;https://onnx.ai/&quot;&gt;ONNX&lt;/a&gt; and running it in the browser inside a &lt;a href=&quot;https://reactjs.org&quot;&gt;React.js&lt;/a&gt; app.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Mon, 14 Oct 2019 00:00:00 +0200</pubDate>
+        <link>
+        http://localhost:4000/fastai-in-the-browser</link>
+        <guid isPermaLink="true">http://localhost:4000/fastai-in-the-browser</guid>
+      </item>
+      
+    
+      
+      <item>
         <title>Understanding and Building a GraphQL Server</title>
         
           <description>&lt;p&gt;If you are trying to build a GraphQL server today, you don’t have much

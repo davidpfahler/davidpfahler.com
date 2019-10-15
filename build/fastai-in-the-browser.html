@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>How to train a fastai model and run it in the browser</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="/assets/built/highlight.js.9.12.0.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="End-to-end example of training a machine learning model in PyTorch with fastai, export it to ONNX and run it in the browser.
+" />
+    <link rel="shortcut icon" href="http://localhost:4000/assets/images/favicon.png" type="image/png" />
+    <link rel="canonical" href="http://localhost:4000/fastai-in-the-browser" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="David Pfahler" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="How to train a fastai model and run it in the browser" />
+    <meta property="og:description" content="This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, exporting it to ONNX and running it in the browser inside a React.js app. Try the demo! Beginner-friendly tutorials for training a deep learning model with fast.ai, exporting a PyTorch model to ONNX or" />
+    <meta property="og:url" content="http://localhost:4000/fastai-in-the-browser" />
+    <meta property="og:image" content="http://localhost:4000/assets/images/dogs/dogs-collage.jpg" />
+    
+    
+    <meta property="article:published_time" content="2019-10-14T00:00:00+02:00" />
+    <meta property="article:modified_time" content="2019-10-14T00:00:00+02:00" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How to train a fastai model and run it in the browser" />
+    <meta name="twitter:description" content="This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, exporting it to ONNX and running it in the browser inside a React.js app. Try the demo! Beginner-friendly tutorials for training a deep learning model with fast.ai, exporting a PyTorch model to ONNX or" />
+    <meta name="twitter:url" content="http://localhost:4000/" />
+    <meta name="twitter:image" content="http://localhost:4000/assets/images/dogs/dogs-collage.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="David Pfahler" />
+    <meta name="twitter:site" content="@davidpfahler" />
+    <meta name="twitter:creator" content="@davidpfahler" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "David Pfahler",
+        "logo": "http://localhost:4000/false"
+    },
+    "url": "http://localhost:4000/fastai-in-the-browser",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:4000/assets/images/dogs/dogs-collage.jpg",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:4000/fastai-in-the-browser"
+    },
+    "description": "This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, exporting it to ONNX and running it in the browser inside a React.js app. Try the demo! Beginner-friendly tutorials for training a deep learning model with fast.ai, exporting a PyTorch model to ONNX or"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="How to train a fastai model and run it in the browser" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="http://localhost:4000/">David Pfahler</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">Home</a></li>
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+            
+                <a class="social-link social-link-tw" href="https://twitter.com/davidpfahler" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            
+        </div>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="14 October 2019">14 October 2019</time>
+                    
+                </section>
+                <h1 class="post-full-title">How to train a fastai model and run it in the browser</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/dogs/dogs-collage.jpg)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <p>This post covers an end-to-end example project of training a resnet model with <a href="https://www.fast.ai">fastai</a> and <a href="https://pytorch.org/">PyTorch</a>, exporting it to <a href="https://onnx.ai/">ONNX</a> and running it in the browser inside a <a href="https://reactjs.org">React.js</a> app.</p>
+
+<blockquote>
+  <p>Try the <a href="http://davidpfahler.github.io/react-ml-app">demo</a>!</p>
+</blockquote>
+
+<p>Beginner-friendly tutorials for <a href="https://course.fast.ai">training a deep learning model with fast.ai</a>, <a href="https://pytorch.org/docs/master/onnx.html">exporting a PyTorch model to ONNX</a> or <a href="https://reactjs.org/tutorial/tutorial.html">creating a frontend web app with React.js</a> are widely available, but when it comes to combining these different steps into a real project, information is more scarce. Hence, the goal of this post (and the accompanying <a href="https://github.com/davidpfahler/react-ml-app/blob/master/train_dog_classifier_with_fastai_export_to_ONNX.ipynb">notebook</a> and <a href="https://github.com/davidpfahler/react-ml-app">repository</a>) is to close this gap and show you how the training, export and deployment of a (close to) state-of-the-art deep learning model that runs in any modern web browser with a useable user interface comes together.</p>
+
+<h2 id="train-a-resnet-with-fastai-and-export-to-onnx">Train a resnet with fastai and export to ONNX</h2>
+
+<p>This post assumes that you are familiar with training a model using fastai in general. If you are new to fastai, I wholeheartedly recommend their <a href="https://course.fast.ai">free MOOC</a>. The training process used is described in and can be reproduced with <a href="https://github.com/davidpfahler/react-ml-app/blob/master/train_dog_classifier_with_fastai_export_to_ONNX.ipynb">this jupyter notebook</a>. The notebook also includes the export to ONNX, which is a <a href="https://pytorch.org/docs/master/onnx.html">built-in feature of PyTorch</a>.</p>
+
+<h2 id="run-the-model-in-the-browser">Run the model in the browser</h2>
+
+<p>Deployment of the model to the browser also requires a web app that accepts the input data – in this case an image – and displays the predictions. You can quickly create a react app using <a href="https://create-react-app.dev/"><code class="highlighter-rouge">create-react-app</code></a>. To get a somewhat nice looking UI going, this project uses the <a href="https://material-ui.com">MATERIAL-UI framework</a>, which provides a lot of useful components. You can find the full source code of this project in the <a href="https://github.com/davidpfahler/react-ml-app">project’s GitHub repository</a>.</p>
+
+<p>Loading and running the model is achieved with <a href="https://github.com/microsoft/onnxjs/">onnxjs</a>. Here are some tips when using onnxjs:</p>
+
+<h3 id="model-warm-up">Model warm-up</h3>
+
+<p>While you <a href="https://github.com/davidpfahler/react-ml-app/blob/68bcc5005d9e0de390602fd0cdb9676d6d6da341/src/components/utils.js#L37">load the model</a>, you most likely want to display a loading indicator to the user. I would recommend you also <a href="https://github.com/davidpfahler/react-ml-app/blob/68bcc5005d9e0de390602fd0cdb9676d6d6da341/src/components/utils.js#L27-L33">warm-up the model</a> right after loading and keep the loading indicator shown to the user. The warm-up is simply the very first forward pass (i.e. inference) on the loaded model. This will make the inference much faster the second time. So for a smooth user experience, it can make sense to load and warm-up at the start so that running the model is subsequently much faster. Warm-up can be performed using a <a href="https://github.com/davidpfahler/react-ml-app/blob/68bcc5005d9e0de390602fd0cdb9676d6d6da341/src/components/utils.js#L29">random input tensor</a>.</p>
+
+<h3 id="loading-the-input-image-tensor">Loading the input image tensor</h3>
+
+<p>Getting an input image into a tensor format is somewhat tricky in the browser. I use an HTML dropzone, which can handle drag &amp; dropped files as well as a regular file choser dialog. If you are using react, I recommend the <a href="https://github.com/react-dropzone/react-dropzone">react-dropzone</a> component. Once an image file is dropped there, you will need to <a href="https://github.com/react-dropzone/react-dropzone">load the image file to a <code class="highlighter-rouge">canvas</code></a>, which seems to be the only way to get the raw image data from an encoded file like a JPG in JavaScript.</p>
+
+<h3 id="preprocessing-the-input-tensor">Preprocessing the input tensor</h3>
+
+<p>Make sure that you are <a href="https://github.com/davidpfahler/react-ml-app/blob/68bcc5005d9e0de390602fd0cdb9676d6d6da341/src/components/utils.js#L54-L73">normalizing the input tensor</a> using the same statistics that you used when training your model. In this case, these were the <code class="highlighter-rouge">imagenet_stats</code>.</p>
+
+<h3 id="interpreting-the-outputmap">Interpreting the <code class="highlighter-rouge">outputMap</code></h3>
+
+<p>Running the model asynchronously returns an array of numbers, which has the same length as your classifier has classes. Each number thus representens the activation for a given class. To interpret this result, I selected only the top five activations and then <a href="https://github.com/davidpfahler/react-ml-app/blob/master/src/components/Predictions.js#L6-L24">computed a percentage “probability”</a>. Note that this isn’t exactly scientific, but gives the user an idea of how confident the model is when making a prediction.</p>
+
+<h2 id="demo-time-try-it-out">Demo time: Try it out!</h2>
+
+<p>Try out <a href="http://davidpfahler.github.io/react-ml-app">the live demo version of the dog breed classifier</a>! It should work in all modern browsers, but depending on the hardware, especially on low-end phones, it might not be able to load or run the model. Be aware that the model itself is about 48MB is size, so you probably want to have a good connection.</p>
+
+<p>The best part: none of the images you give to the classifer ever leave your device! All of the inference is done locally, in your browser.</p>
+
+<h2 id="feedback-welcome">Feedback welcome</h2>
+
+<p>I could and want to say a lot more about the joys and pains of making this little project, but I also want to get this information out there as soon as possible. So if you have any specific questions, suggestions or recommendations, please do not hesitate to contact me on twitter <a href="https://twitter.com/davidpfahler">@davidpfahler</a>. I almost certainly made mistakes in the implementation or explanation, so if you find any, please let me know!</p>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>I want to thank first and foremost the amazing team at fast.ai and the community at the <a href="https://forums.fast.ai">fast.ai forums</a>, who are always most helpful. This little pet project obiously stands on the shoulders of (open-source) giants. Thanks to all of them!</p>
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                        <section class="author-card">
+                            
+                                <img class="author-profile-image" src="/assets/images/davidpfahler.jpg" alt="davidpfahler" />
+                            
+                            <section class="author-card-content">
+                                <h4 class="author-card-name"><a href="/author/davidpfahler">David Pfahler</a></h4>
+                                
+                                    <p>I am a German trainee lawyer, software engineer and data scientist. I write about these topics here.</p>
+                                
+                            </section>
+                        </section>
+                        <div class="post-full-footer-right">
+                            <a class="author-card-button" href="/author/davidpfahler">Read More</a>
+                        </div>
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/understanding-graphql-server">
+                <div class="post-card-image" style="background-image: url(/assets/images/felix-mittermeier-Knwea-mLGAg-unsplash.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/understanding-graphql-server">
+                <header class="post-card-header">
+                    
+
+                    <h2 class="post-card-title">Understanding and Building a GraphQL Server</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p></p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/davidpfahler.jpg" alt="David Pfahler" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/davidpfahler/">David Pfahler</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="http://localhost:4000/">
+            
+            <span>David Pfahler</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">How to train a fastai model and run it in the browser</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=How+to+train+a+fastai+model+and+run+it+in+the+browser&amp;url=https://davidpfahler.comfastai-in-the-browser"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="http://localhost:4000/">David Pfahler</a> &copy; 2019</section>
+                <nav class="site-footer-nav">
+                    <a href="/impressum">Impressum</a>
+                    <a href="/privacy-policy">Privacy Policy</a>
+                </nav>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    <a href="https://twitter.com/davidpfahler" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://github.com/jekyller/jasper2" target="_blank" rel="noopener">Jasper2</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+    <!-- Add Google Analytics  -->
+    
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>
