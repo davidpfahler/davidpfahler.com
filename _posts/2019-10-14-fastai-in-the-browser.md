@@ -57,6 +57,8 @@ The best part: none of the images you give to the classifer ever leave your devi
 
 I could and want to say a lot more about the joys and pains of making this little project, but I also want to get this information out there as soon as possible. So if you have any specific questions, suggestions or recommendations, please do not hesitate to contact me on twitter [@davidpfahler](https://twitter.com/davidpfahler). I almost certainly made mistakes in the implementation or explanation, so if you find any, please let me know!
 
+I also created a thread on the [fastai forums](https://forums.fast.ai/t/how-to-run-a-fastai-model-in-the-browser/56571), so if you are active there, please join the discussion!
+
 ## Acknowledgements
 
 I want to thank first and foremost the amazing team at fast.ai and the community at the [fast.ai forums](https://forums.fast.ai), who are always most helpful. This little pet project obiously stands on the shoulders of (open-source) giants. Thanks to all of them!
