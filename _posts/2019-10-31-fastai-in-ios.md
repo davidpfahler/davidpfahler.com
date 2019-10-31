@@ -7,15 +7,15 @@ date: 2019-10-31
 tags:
 class: post-template
 subclass: 'post'
-title: How to train a fastai model and run it in iOS
+title: How to train a fastai model and run it on iOS
 author: davidpfahler
 description: >
-  End-to-end example of training a machine learning model in PyTorch with fastai, export it to ONNX, convert it to CoreML and run it in iOS.
+  End-to-end example of training a machine learning model in PyTorch with fastai, export it to ONNX, convert it to CoreML and run it on iOS.
 summary: >
-  In-depth end-to-end example of how to train a machine learning model in PyTorch with fastai, export it to ONNX, convert it to CoreML and run it in iOS in a react-native app.
+  In-depth end-to-end example of how to train a machine learning model in PyTorch with fastai, export it to ONNX, convert it to CoreML and run it on iOS in a react-native app.
 ---
 
-This post covers an end-to-end example project of training a resnet model with [fastai](https://www.fast.ai) and [PyTorch](https://pytorch.org/), converting it [CoreML](https://developer.apple.com/documentation/coreml) and running it inside a [react-native](https://facebook.github.io/react-native/) iOS app.
+This post covers an end-to-end example project of training a resnet model with [fastai](https://www.fast.ai) and [PyTorch](https://pytorch.org/), converting it to [CoreML](https://developer.apple.com/documentation/coreml) and running it inside a [react-native](https://facebook.github.io/react-native/) iOS app.
 
 > Find the [notebook](https://github.com/davidpfahler/react-native-ml-app/blob/e4abc813f2c3e7e147454afbcbb4edd14c9ffe16/train_dog_classifier_with_fastai_export_to_CoreML.ipynb) and code in the [GitHub repository](http://davidpfahler.github.io/react-ml-app)!
 
