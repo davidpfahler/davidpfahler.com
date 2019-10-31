@@ -2,10 +2,10 @@
 
 <feed xmlns="http://www.w3.org/2005/Atom" >
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
-  <link href="http://localhost:4000/author/davidpfahler/feed.xml" rel="self" type="application/atom+xml" />
-  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-  <updated>2019-10-15T20:23:10+02:00</updated>
-  <id>http://localhost:4000/author/davidpfahler/feed.xml</id>
+  <link href="/author/davidpfahler/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="/" rel="alternate" type="text/html" />
+  <updated>2019-10-31T14:41:08+01:00</updated>
+  <id>/author/davidpfahler/feed.xml</id>
 
   
   
@@ -32,12 +32,84 @@
 
   
     <entry>
+      <title type="html">How to train a fastai model and run it in iOS</title>
+      <link href="/fastai-in-ios" rel="alternate" type="text/html" title="How to train a fastai model and run it in iOS" />
+      <published>2019-10-31T00:00:00+01:00</published>
+      <updated>2019-10-31T00:00:00+01:00</updated>
+      <id>/fastai-in-ios</id>
+      <content type="html" xml:base="/fastai-in-ios">&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, converting it &lt;a href=&quot;https://developer.apple.com/documentation/coreml&quot;&gt;CoreML&lt;/a&gt; and running it inside a &lt;a href=&quot;https://facebook.github.io/react-native/&quot;&gt;react-native&lt;/a&gt; iOS app.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Find the &lt;a href=&quot;https://github.com/davidpfahler/react-native-ml-app/blob/e4abc813f2c3e7e147454afbcbb4edd14c9ffe16/train_dog_classifier_with_fastai_export_to_CoreML.ipynb&quot;&gt;notebook&lt;/a&gt; and code in the &lt;a href=&quot;http://davidpfahler.github.io/react-ml-app&quot;&gt;GitHub repository&lt;/a&gt;!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;My &lt;a href=&quot;/fastai-in-the-browser&quot;&gt;last article&lt;/a&gt; covered how to train a model in fastai and convert it to ONNX to run it in the browser using onnxjs and React.js. This post goes one step further and into a slightly different direction: The goal is to create a react-native iOS app, that performs the classification of dog breeds locally on the iPhone using CoreML. If you did not read my &lt;a href=&quot;/fastai-in-the-browser&quot;&gt;last article&lt;/a&gt; yet, I would recommend you catch up, because the following will assume you know about the training and exporting to ONNX parts already.&lt;/p&gt;
+
+&lt;h2 id=&quot;converting-the-model-from-onnx-to-coreml&quot;&gt;Converting the model from ONNX to CoreML&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;See the notebook &lt;a href=&quot;https://github.com/davidpfahler/react-native-ml-app/blob/e4abc813f2c3e7e147454afbcbb4edd14c9ffe16/train_dog_classifier_with_fastai_export_to_CoreML.ipynb#Export-to-ONNX&quot;&gt;section “Export to ONNX”&lt;/a&gt; and onwards.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;PyTorch has built-in support for export to ONNX. For details see &lt;a href=&quot;/fastai-in-the-browser&quot;&gt;my previous blog post&lt;/a&gt;. Going from ONNX to CoreML requires &lt;a href=&quot;https://github.com/apple/coremltools&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;coremltools&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://github.com/onnx/onnx-coreml&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;onnx-coreml&lt;/code&gt;&lt;/a&gt;. At first glance you might think that exporting using &lt;code class=&quot;highlighter-rouge&quot;&gt;onnx-coreml&lt;/code&gt; is simply, but at least in this particular case, it wasn’t so straigt forward. Firstly, you need to keep in mind how you normalize your input. In other frameworks it is common to perform normalization before input data is given to the model. In CoreML, at least to my limited knowledge (see &lt;a href=&quot;https://github.com/onnx/onnx-coreml/issues/338&quot;&gt;this onnx-coreml issues for reference&lt;/a&gt;), it seems that normalization is in the input layer of the CoreML model. When we naively export a PyTorch model, it does not have such a normalization input layer.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Tip: Use &lt;a href=&quot;https://github.com/lutzroeder/Netron&quot;&gt;Netron&lt;/a&gt; to visualize your model architecture.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;When you convert the ONNX model to CoreML, you need to provide an &lt;code class=&quot;highlighter-rouge&quot;&gt;image_input_names&lt;/code&gt; parameter so the model knows which layer is the input layer that receives raw image data. This parameter takes a list of strings, which in this case is just the name of the first layer. But what is that name? To find that out quickly and easily, I used &lt;a href=&quot;https://github.com/lutzroeder/Netron&quot;&gt;Netron&lt;/a&gt;. This program allows you to visualize your ONNX network easily and displays the name of the layer when you click on it.&lt;/p&gt;
+
+&lt;p&gt;Back to normalization: The bias can be accomplished by providing the &lt;code class=&quot;highlighter-rouge&quot;&gt;preprocessing_args&lt;/code&gt; to the &lt;code class=&quot;highlighter-rouge&quot;&gt;convert&lt;/code&gt; function of &lt;code class=&quot;highlighter-rouge&quot;&gt;onnx-coreml&lt;/code&gt;, but to scale the inputs correctly, we need to add a layer to the beginning of our (now ONNX) model. To do that we first convert the ONNX model to CoreML using &lt;code class=&quot;highlighter-rouge&quot;&gt;onnx-coreml&lt;/code&gt; and then use &lt;code class=&quot;highlighter-rouge&quot;&gt;coremltools&lt;/code&gt; to load and modify this CoreML model. This is explained more in-depth in &lt;a href=&quot;https://colab.research.google.com/drive/1hxpSDrL3lTZC2QDvcaQzscGLOAZSTnQC#scrollTo=NFThHbIfbmHU&quot;&gt;this notebook&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;integrating-the-model-in-a-react-native-ios-app&quot;&gt;Integrating the model in a react-native iOS app&lt;/h2&gt;
+
+&lt;p&gt;First, I tried to use the &lt;a href=&quot;https://github.com/rhdeck/react-native-coreml&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;react-native-coreml&lt;/code&gt;&lt;/a&gt; native module. Unfortunately, I couldn’t get it work. So I borrowed from it and the &lt;a href=&quot;https://facebook.github.io/react-native/docs/native-modules-ios&quot;&gt;react-native docs on Native Modules&lt;/a&gt; to create my own native module that did &lt;a href=&quot;https://github.com/davidpfahler/react-native-ml-app/blob/e4abc813f2c3e7e147454afbcbb4edd14c9ffe16/src/CoreMLNativeModule.js&quot;&gt;exactly why and I needed&lt;/a&gt; and no more.&lt;/p&gt;
+
+&lt;p&gt;One more take away: If you can, stick to Objective-C instead of using Swift via a bridge like I did. It seems like the necesary Swift libraries blow up the bundle size by about 200MB.&lt;/p&gt;
+
+&lt;p&gt;For the react-native app, I used &lt;a href=&quot;https://github.com/callstack/react-native-paper&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;react-native-paper&lt;/code&gt;&lt;/a&gt; for a few UI elements and &lt;a href=&quot;https://github.com/react-native-community/react-native-camera&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;react-native-camera&lt;/code&gt;&lt;/a&gt; to capture pictures. &lt;code class=&quot;highlighter-rouge&quot;&gt;react-native-camera&lt;/code&gt; needs a little more effort than one would think. It exposes a very bare-bones API, which is super flexible, but does not provide a lot of convenience out-of-the-box. For example, you need to design and code your own trigger button. All that the plugin provides is the raw camera signal and APIs to take a picture or record video. Fortunately, they have &lt;a href=&quot;https://github.com/react-native-community/react-native-camera/tree/master/examples&quot;&gt;examples&lt;/a&gt;, but you have to know to look there.&lt;/p&gt;
+
+&lt;h2 id=&quot;feedback-welcome&quot;&gt;Feedback welcome&lt;/h2&gt;
+
+&lt;p&gt;I could and want to say a lot more about the joys and pains of making this little project, but I also want to get this information out there as soon as possible. So if you have any specific questions, suggestions or recommendations, please do not hesitate to contact me on twitter &lt;a href=&quot;https://twitter.com/davidpfahler&quot;&gt;@davidpfahler&lt;/a&gt;. I almost certainly made mistakes in the implementation or explanation, so if you find any, please let me know!&lt;/p&gt;
+
+&lt;p&gt;I also created a thread on the &lt;a href=&quot;https://forums.fast.ai/t/running-a-fastai-model-in-ios-using-coreml/57553&quot;&gt;fastai forums&lt;/a&gt;, so if you are active there, please join the discussion!&lt;/p&gt;
+
+&lt;h2 id=&quot;acknowledgements&quot;&gt;Acknowledgements&lt;/h2&gt;
+
+&lt;p&gt;I want to thank first and foremost the amazing team at fast.ai and the community at the &lt;a href=&quot;https://forums.fast.ai&quot;&gt;fast.ai forums&lt;/a&gt;, who are always most helpful. This little pet project obiously stands on the shoulders of (open-source) giants. Thanks to all of them!&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name>David Pfahler</name>
+        
+        
+      </author>
+
+      
+
+      
+
+      
+        <summary type="html">This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, converting it CoreML and running it inside a react-native iOS app.</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
       <title type="html">How to train a fastai model and run it in the browser</title>
-      <link href="http://localhost:4000/fastai-in-the-browser" rel="alternate" type="text/html" title="How to train a fastai model and run it in the browser" />
+      <link href="/fastai-in-the-browser" rel="alternate" type="text/html" title="How to train a fastai model and run it in the browser" />
       <published>2019-10-14T00:00:00+02:00</published>
       <updated>2019-10-14T00:00:00+02:00</updated>
-      <id>http://localhost:4000/fastai-in-the-browser</id>
-      <content type="html" xml:base="http://localhost:4000/fastai-in-the-browser">&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, exporting it to &lt;a href=&quot;https://onnx.ai/&quot;&gt;ONNX&lt;/a&gt; and running it in the browser inside a &lt;a href=&quot;https://reactjs.org&quot;&gt;React.js&lt;/a&gt; app.&lt;/p&gt;
+      <id>/fastai-in-the-browser</id>
+      <content type="html" xml:base="/fastai-in-the-browser">&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, exporting it to &lt;a href=&quot;https://onnx.ai/&quot;&gt;ONNX&lt;/a&gt; and running it in the browser inside a &lt;a href=&quot;https://reactjs.org&quot;&gt;React.js&lt;/a&gt; app.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;Try the &lt;a href=&quot;http://davidpfahler.github.io/react-ml-app&quot;&gt;demo&lt;/a&gt;!&lt;/p&gt;
@@ -81,6 +153,8 @@
 
 &lt;p&gt;I could and want to say a lot more about the joys and pains of making this little project, but I also want to get this information out there as soon as possible. So if you have any specific questions, suggestions or recommendations, please do not hesitate to contact me on twitter &lt;a href=&quot;https://twitter.com/davidpfahler&quot;&gt;@davidpfahler&lt;/a&gt;. I almost certainly made mistakes in the implementation or explanation, so if you find any, please let me know!&lt;/p&gt;
 
+&lt;p&gt;I also created a thread on the &lt;a href=&quot;https://forums.fast.ai/t/how-to-run-a-fastai-model-in-the-browser/56571&quot;&gt;fastai forums&lt;/a&gt;, so if you are active there, please join the discussion!&lt;/p&gt;
+
 &lt;h2 id=&quot;acknowledgements&quot;&gt;Acknowledgements&lt;/h2&gt;
 
 &lt;p&gt;I want to thank first and foremost the amazing team at fast.ai and the community at the &lt;a href=&quot;https://forums.fast.ai&quot;&gt;fast.ai forums&lt;/a&gt;, who are always most helpful. This little pet project obiously stands on the shoulders of (open-source) giants. Thanks to all of them!&lt;/p&gt;</content>
@@ -111,11 +185,11 @@
   
     <entry>
       <title type="html">Understanding and Building a GraphQL Server</title>
-      <link href="http://localhost:4000/understanding-graphql-server" rel="alternate" type="text/html" title="Understanding and Building a GraphQL Server" />
+      <link href="/understanding-graphql-server" rel="alternate" type="text/html" title="Understanding and Building a GraphQL Server" />
       <published>2015-07-22T12:18:00+02:00</published>
       <updated>2015-07-22T12:18:00+02:00</updated>
-      <id>http://localhost:4000/understanding-graphql-server</id>
-      <content type="html" xml:base="http://localhost:4000/understanding-graphql-server">&lt;p&gt;If you are trying to build a GraphQL server today, you don’t have much
+      <id>/understanding-graphql-server</id>
+      <content type="html" xml:base="/understanding-graphql-server">&lt;p&gt;If you are trying to build a GraphQL server today, you don’t have much
 choice: You pretty much have to use the reference implementation
 &lt;a href=&quot;https://github.com/graphql/graphql-js&quot;&gt;graphql-js&lt;/a&gt;. The problem is, though, that there is almost no
 documentation for it, yet.&lt;/p&gt;

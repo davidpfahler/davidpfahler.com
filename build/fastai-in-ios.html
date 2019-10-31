@@ -11,7 +11,7 @@
 
 
 
-    <title>How to train a fastai model and run it in the browser</title>
+    <title>How to train a fastai model and run it in iOS</title>
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Styles'n'Scripts -->
@@ -34,28 +34,28 @@
     <![endif]-->
     
     <!-- This tag outputs SEO meta+structured data and other important settings -->
-    <meta name="description" content="End-to-end example of training a machine learning model in PyTorch with fastai, export it to ONNX and run it in the browser.
+    <meta name="description" content="End-to-end example of training a machine learning model in PyTorch with fastai, export it to ONNX, convert it to CoreML and run it in iOS.
 " />
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png" />
-    <link rel="canonical" href="/fastai-in-the-browser" />
+    <link rel="canonical" href="/fastai-in-ios" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
 
      <!--title below is coming from _includes/dynamic_title-->
     <meta property="og:site_name" content="David Pfahler" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="How to train a fastai model and run it in the browser" />
-    <meta property="og:description" content="This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, exporting it to ONNX and running it in the browser inside a React.js app. Try the demo! Beginner-friendly tutorials for training a deep learning model with fast.ai, exporting a PyTorch model to ONNX or" />
-    <meta property="og:url" content="/fastai-in-the-browser" />
-    <meta property="og:image" content="/assets/images/dogs/dogs-collage.jpg" />
+    <meta property="og:title" content="How to train a fastai model and run it in iOS" />
+    <meta property="og:description" content="This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, converting it CoreML and running it inside a react-native iOS app. Find the notebook and code in the GitHub repository! My last article covered how to train a model in fastai and convert it" />
+    <meta property="og:url" content="/fastai-in-ios" />
+    <meta property="og:image" content="/assets/images/dogs/dogs-coreml.jpg" />
     
     
-    <meta property="article:published_time" content="2019-10-14T00:00:00+02:00" />
-    <meta property="article:modified_time" content="2019-10-14T00:00:00+02:00" />
+    <meta property="article:published_time" content="2019-10-31T00:00:00+01:00" />
+    <meta property="article:modified_time" content="2019-10-31T00:00:00+01:00" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="How to train a fastai model and run it in the browser" />
-    <meta name="twitter:description" content="This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, exporting it to ONNX and running it in the browser inside a React.js app. Try the demo! Beginner-friendly tutorials for training a deep learning model with fast.ai, exporting a PyTorch model to ONNX or" />
+    <meta name="twitter:title" content="How to train a fastai model and run it in iOS" />
+    <meta name="twitter:description" content="This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, converting it CoreML and running it inside a react-native iOS app. Find the notebook and code in the GitHub repository! My last article covered how to train a model in fastai and convert it" />
     <meta name="twitter:url" content="/" />
-    <meta name="twitter:image" content="/assets/images/dogs/dogs-collage.jpg" />
+    <meta name="twitter:image" content="/assets/images/dogs/dogs-coreml.jpg" />
     <meta name="twitter:label1" content="Written by" />
     <meta name="twitter:data1" content="David Pfahler" />
     <meta name="twitter:site" content="@davidpfahler" />
@@ -72,18 +72,18 @@
         "name": "David Pfahler",
         "logo": "/false"
     },
-    "url": "/fastai-in-the-browser",
+    "url": "/fastai-in-ios",
     "image": {
         "@type": "ImageObject",
-        "url": "/assets/images/dogs/dogs-collage.jpg",
+        "url": "/assets/images/dogs/dogs-coreml.jpg",
         "width": 2000,
         "height": 666
     },
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "/fastai-in-the-browser"
+        "@id": "/fastai-in-ios"
     },
-    "description": "This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, exporting it to ONNX and running it in the browser inside a React.js app. Try the demo! Beginner-friendly tutorials for training a deep learning model with fast.ai, exporting a PyTorch model to ONNX or"
+    "description": "This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, converting it CoreML and running it inside a react-native iOS app. Find the notebook and code in the GitHub repository! My last article covered how to train a model in fastai and convert it"
 }
     </script>
 
@@ -96,7 +96,7 @@
     </script> -->
 
     <meta name="generator" content="Jekyll 3.6.2" />
-    <link rel="alternate" type="application/rss+xml" title="How to train a fastai model and run it in the browser" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="How to train a fastai model and run it in iOS" href="/feed.xml" />
 
 
 </head>
@@ -150,64 +150,56 @@ into the {body} of the default.hbs template -->
 
             <header class="post-full-header">
                 <section class="post-full-meta">
-                    <time class="post-full-meta-date" datetime="14 October 2019">14 October 2019</time>
+                    <time class="post-full-meta-date" datetime="31 October 2019">31 October 2019</time>
                     
                 </section>
-                <h1 class="post-full-title">How to train a fastai model and run it in the browser</h1>
+                <h1 class="post-full-title">How to train a fastai model and run it in iOS</h1>
             </header>
 
             
-            <figure class="post-full-image" style="background-image: url(/assets/images/dogs/dogs-collage.jpg)">
+            <figure class="post-full-image" style="background-image: url(/assets/images/dogs/dogs-coreml.jpg)">
             </figure>
             
 
             <section class="post-full-content">
                 <div class="kg-card-markdown">
-                    <p>This post covers an end-to-end example project of training a resnet model with <a href="https://www.fast.ai">fastai</a> and <a href="https://pytorch.org/">PyTorch</a>, exporting it to <a href="https://onnx.ai/">ONNX</a> and running it in the browser inside a <a href="https://reactjs.org">React.js</a> app.</p>
+                    <p>This post covers an end-to-end example project of training a resnet model with <a href="https://www.fast.ai">fastai</a> and <a href="https://pytorch.org/">PyTorch</a>, converting it <a href="https://developer.apple.com/documentation/coreml">CoreML</a> and running it inside a <a href="https://facebook.github.io/react-native/">react-native</a> iOS app.</p>
 
 <blockquote>
-  <p>Try the <a href="http://davidpfahler.github.io/react-ml-app">demo</a>!</p>
+  <p>Find the <a href="https://github.com/davidpfahler/react-native-ml-app/blob/e4abc813f2c3e7e147454afbcbb4edd14c9ffe16/train_dog_classifier_with_fastai_export_to_CoreML.ipynb">notebook</a> and code in the <a href="http://davidpfahler.github.io/react-ml-app">GitHub repository</a>!</p>
 </blockquote>
 
-<p>Beginner-friendly tutorials for <a href="https://course.fast.ai">training a deep learning model with fast.ai</a>, <a href="https://pytorch.org/docs/master/onnx.html">exporting a PyTorch model to ONNX</a> or <a href="https://reactjs.org/tutorial/tutorial.html">creating a frontend web app with React.js</a> are widely available, but when it comes to combining these different steps into a real project, information is more scarce. Hence, the goal of this post (and the accompanying <a href="https://github.com/davidpfahler/react-ml-app/blob/master/train_dog_classifier_with_fastai_export_to_ONNX.ipynb">notebook</a> and <a href="https://github.com/davidpfahler/react-ml-app">repository</a>) is to close this gap and show you how the training, export and deployment of a (close to) state-of-the-art deep learning model that runs in any modern web browser with a useable user interface comes together.</p>
+<p>My <a href="/fastai-in-the-browser">last article</a> covered how to train a model in fastai and convert it to ONNX to run it in the browser using onnxjs and React.js. This post goes one step further and into a slightly different direction: The goal is to create a react-native iOS app, that performs the classification of dog breeds locally on the iPhone using CoreML. If you did not read my <a href="/fastai-in-the-browser">last article</a> yet, I would recommend you catch up, because the following will assume you know about the training and exporting to ONNX parts already.</p>
 
-<h2 id="train-a-resnet-with-fastai-and-export-to-onnx">Train a resnet with fastai and export to ONNX</h2>
+<h2 id="converting-the-model-from-onnx-to-coreml">Converting the model from ONNX to CoreML</h2>
 
-<p>This post assumes that you are familiar with training a model using fastai in general. If you are new to fastai, I wholeheartedly recommend their <a href="https://course.fast.ai">free MOOC</a>. The training process used is described in and can be reproduced with <a href="https://github.com/davidpfahler/react-ml-app/blob/master/train_dog_classifier_with_fastai_export_to_ONNX.ipynb">this jupyter notebook</a>. The notebook also includes the export to ONNX, which is a <a href="https://pytorch.org/docs/master/onnx.html">built-in feature of PyTorch</a>.</p>
+<blockquote>
+  <p>See the notebook <a href="https://github.com/davidpfahler/react-native-ml-app/blob/e4abc813f2c3e7e147454afbcbb4edd14c9ffe16/train_dog_classifier_with_fastai_export_to_CoreML.ipynb#Export-to-ONNX">section “Export to ONNX”</a> and onwards.</p>
+</blockquote>
 
-<h2 id="run-the-model-in-the-browser">Run the model in the browser</h2>
+<p>PyTorch has built-in support for export to ONNX. For details see <a href="/fastai-in-the-browser">my previous blog post</a>. Going from ONNX to CoreML requires <a href="https://github.com/apple/coremltools"><code class="highlighter-rouge">coremltools</code></a> and <a href="https://github.com/onnx/onnx-coreml"><code class="highlighter-rouge">onnx-coreml</code></a>. At first glance you might think that exporting using <code class="highlighter-rouge">onnx-coreml</code> is simply, but at least in this particular case, it wasn’t so straigt forward. Firstly, you need to keep in mind how you normalize your input. In other frameworks it is common to perform normalization before input data is given to the model. In CoreML, at least to my limited knowledge (see <a href="https://github.com/onnx/onnx-coreml/issues/338">this onnx-coreml issues for reference</a>), it seems that normalization is in the input layer of the CoreML model. When we naively export a PyTorch model, it does not have such a normalization input layer.</p>
 
-<p>Deployment of the model to the browser also requires a web app that accepts the input data – in this case an image – and displays the predictions. You can quickly create a react app using <a href="https://create-react-app.dev/"><code class="highlighter-rouge">create-react-app</code></a>. To get a somewhat nice looking UI going, this project uses the <a href="https://material-ui.com">MATERIAL-UI framework</a>, which provides a lot of useful components. You can find the full source code of this project in the <a href="https://github.com/davidpfahler/react-ml-app">project’s GitHub repository</a>.</p>
+<blockquote>
+  <p>Tip: Use <a href="https://github.com/lutzroeder/Netron">Netron</a> to visualize your model architecture.</p>
+</blockquote>
 
-<p>Loading and running the model is achieved with <a href="https://github.com/microsoft/onnxjs/">onnxjs</a>. Here are some tips when using onnxjs:</p>
+<p>When you convert the ONNX model to CoreML, you need to provide an <code class="highlighter-rouge">image_input_names</code> parameter so the model knows which layer is the input layer that receives raw image data. This parameter takes a list of strings, which in this case is just the name of the first layer. But what is that name? To find that out quickly and easily, I used <a href="https://github.com/lutzroeder/Netron">Netron</a>. This program allows you to visualize your ONNX network easily and displays the name of the layer when you click on it.</p>
 
-<h3 id="model-warm-up">Model warm-up</h3>
+<p>Back to normalization: The bias can be accomplished by providing the <code class="highlighter-rouge">preprocessing_args</code> to the <code class="highlighter-rouge">convert</code> function of <code class="highlighter-rouge">onnx-coreml</code>, but to scale the inputs correctly, we need to add a layer to the beginning of our (now ONNX) model. To do that we first convert the ONNX model to CoreML using <code class="highlighter-rouge">onnx-coreml</code> and then use <code class="highlighter-rouge">coremltools</code> to load and modify this CoreML model. This is explained more in-depth in <a href="https://colab.research.google.com/drive/1hxpSDrL3lTZC2QDvcaQzscGLOAZSTnQC#scrollTo=NFThHbIfbmHU">this notebook</a>.</p>
 
-<p>While you <a href="https://github.com/davidpfahler/react-ml-app/blob/68bcc5005d9e0de390602fd0cdb9676d6d6da341/src/components/utils.js#L37">load the model</a>, you most likely want to display a loading indicator to the user. I would recommend you also <a href="https://github.com/davidpfahler/react-ml-app/blob/68bcc5005d9e0de390602fd0cdb9676d6d6da341/src/components/utils.js#L27-L33">warm-up the model</a> right after loading and keep the loading indicator shown to the user. The warm-up is simply the very first forward pass (i.e. inference) on the loaded model. This will make the inference much faster the second time. So for a smooth user experience, it can make sense to load and warm-up at the start so that running the model is subsequently much faster. Warm-up can be performed using a <a href="https://github.com/davidpfahler/react-ml-app/blob/68bcc5005d9e0de390602fd0cdb9676d6d6da341/src/components/utils.js#L29">random input tensor</a>.</p>
+<h2 id="integrating-the-model-in-a-react-native-ios-app">Integrating the model in a react-native iOS app</h2>
 
-<h3 id="loading-the-input-image-tensor">Loading the input image tensor</h3>
+<p>First, I tried to use the <a href="https://github.com/rhdeck/react-native-coreml"><code class="highlighter-rouge">react-native-coreml</code></a> native module. Unfortunately, I couldn’t get it work. So I borrowed from it and the <a href="https://facebook.github.io/react-native/docs/native-modules-ios">react-native docs on Native Modules</a> to create my own native module that did <a href="https://github.com/davidpfahler/react-native-ml-app/blob/e4abc813f2c3e7e147454afbcbb4edd14c9ffe16/src/CoreMLNativeModule.js">exactly why and I needed</a> and no more.</p>
 
-<p>Getting an input image into a tensor format is somewhat tricky in the browser. I use an HTML dropzone, which can handle drag &amp; dropped files as well as a regular file choser dialog. If you are using react, I recommend the <a href="https://github.com/react-dropzone/react-dropzone">react-dropzone</a> component. Once an image file is dropped there, you will need to <a href="https://github.com/react-dropzone/react-dropzone">load the image file to a <code class="highlighter-rouge">canvas</code></a>, which seems to be the only way to get the raw image data from an encoded file like a JPG in JavaScript.</p>
+<p>One more take away: If you can, stick to Objective-C instead of using Swift via a bridge like I did. It seems like the necesary Swift libraries blow up the bundle size by about 200MB.</p>
 
-<h3 id="preprocessing-the-input-tensor">Preprocessing the input tensor</h3>
-
-<p>Make sure that you are <a href="https://github.com/davidpfahler/react-ml-app/blob/68bcc5005d9e0de390602fd0cdb9676d6d6da341/src/components/utils.js#L54-L73">normalizing the input tensor</a> using the same statistics that you used when training your model. In this case, these were the <code class="highlighter-rouge">imagenet_stats</code>.</p>
-
-<h3 id="interpreting-the-outputmap">Interpreting the <code class="highlighter-rouge">outputMap</code></h3>
-
-<p>Running the model asynchronously returns an array of numbers, which has the same length as your classifier has classes. Each number thus representens the activation for a given class. To interpret this result, I selected only the top five activations and then <a href="https://github.com/davidpfahler/react-ml-app/blob/master/src/components/Predictions.js#L6-L24">computed a percentage “probability”</a>. Note that this isn’t exactly scientific, but gives the user an idea of how confident the model is when making a prediction.</p>
-
-<h2 id="demo-time-try-it-out">Demo time: Try it out!</h2>
-
-<p>Try out <a href="http://davidpfahler.github.io/react-ml-app">the live demo version of the dog breed classifier</a>! It should work in all modern browsers, but depending on the hardware, especially on low-end phones, it might not be able to load or run the model. Be aware that the model itself is about 48MB is size, so you probably want to have a good connection.</p>
-
-<p>The best part: none of the images you give to the classifer ever leave your device! All of the inference is done locally, in your browser.</p>
+<p>For the react-native app, I used <a href="https://github.com/callstack/react-native-paper"><code class="highlighter-rouge">react-native-paper</code></a> for a few UI elements and <a href="https://github.com/react-native-community/react-native-camera"><code class="highlighter-rouge">react-native-camera</code></a> to capture pictures. <code class="highlighter-rouge">react-native-camera</code> needs a little more effort than one would think. It exposes a very bare-bones API, which is super flexible, but does not provide a lot of convenience out-of-the-box. For example, you need to design and code your own trigger button. All that the plugin provides is the raw camera signal and APIs to take a picture or record video. Fortunately, they have <a href="https://github.com/react-native-community/react-native-camera/tree/master/examples">examples</a>, but you have to know to look there.</p>
 
 <h2 id="feedback-welcome">Feedback welcome</h2>
 
 <p>I could and want to say a lot more about the joys and pains of making this little project, but I also want to get this information out there as soon as possible. So if you have any specific questions, suggestions or recommendations, please do not hesitate to contact me on twitter <a href="https://twitter.com/davidpfahler">@davidpfahler</a>. I almost certainly made mistakes in the implementation or explanation, so if you find any, please let me know!</p>
 
-<p>I also created a thread on the <a href="https://forums.fast.ai/t/how-to-run-a-fastai-model-in-the-browser/56571">fastai forums</a>, so if you are active there, please join the discussion!</p>
+<p>I also created a thread on the <a href="https://forums.fast.ai/t/running-a-fastai-model-in-ios-using-coreml/57553">fastai forums</a>, so if you are active there, please join the discussion!</p>
 
 <h2 id="acknowledgements">Acknowledgements</h2>
 
@@ -261,49 +253,6 @@ into the {body} of the default.hbs template -->
 
             <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
             
-                
-
-    <article class="post-card post-template">
-        
-            <a class="post-card-image-link" href="/fastai-in-ios">
-                <div class="post-card-image" style="background-image: url(/assets/images/dogs/dogs-coreml.jpg)"></div>
-            </a>
-        
-        <div class="post-card-content">
-            <a class="post-card-content-link" href="/fastai-in-ios">
-                <header class="post-card-header">
-                    
-
-                    <h2 class="post-card-title">How to train a fastai model and run it in iOS</h2>
-                </header>
-                <section class="post-card-excerpt">
-                    
-                        <p></p>
-                    
-                </section>
-            </a>
-            <footer class="post-card-meta">
-                
-                    
-                        
-                        <img class="author-profile-image" src="/assets/images/davidpfahler.jpg" alt="David Pfahler" />
-                        
-                        <span class="post-card-author">
-                            <a href="/author/davidpfahler/">David Pfahler</a>
-                        </span>
-                    
-                
-                <span class="reading-time">
-                    
-                    
-                      1 min read
-                    
-                </span>
-            </footer>
-        </div>
-    </article>
-
-            
 
             <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
             
@@ -311,16 +260,16 @@ into the {body} of the default.hbs template -->
 
     <article class="post-card post-template">
         
-            <a class="post-card-image-link" href="/understanding-graphql-server">
-                <div class="post-card-image" style="background-image: url(/assets/images/felix-mittermeier-Knwea-mLGAg-unsplash.jpg)"></div>
+            <a class="post-card-image-link" href="/fastai-in-the-browser">
+                <div class="post-card-image" style="background-image: url(/assets/images/dogs/dogs-collage.jpg)"></div>
             </a>
         
         <div class="post-card-content">
-            <a class="post-card-content-link" href="/understanding-graphql-server">
+            <a class="post-card-content-link" href="/fastai-in-the-browser">
                 <header class="post-card-header">
                     
 
-                    <h2 class="post-card-title">Understanding and Building a GraphQL Server</h2>
+                    <h2 class="post-card-title">How to train a fastai model and run it in the browser</h2>
                 </header>
                 <section class="post-card-excerpt">
                     
@@ -364,13 +313,13 @@ into the {body} of the default.hbs template -->
         </a>
     </div>
     <span class="floating-header-divider">&mdash;</span>
-    <div class="floating-header-title">How to train a fastai model and run it in the browser</div>
+    <div class="floating-header-title">How to train a fastai model and run it in iOS</div>
     <div class="floating-header-share">
         <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
 </svg>
 </div>
-        <a class="floating-header-share-tw" href="https://twitter.com/share?text=How+to+train+a+fastai+model+and+run+it+in+the+browser&amp;url=https://davidpfahler.comfastai-in-the-browser"
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=How+to+train+a+fastai+model+and+run+it+in+iOS&amp;url=https://davidpfahler.comfastai-in-ios"
             onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
 
