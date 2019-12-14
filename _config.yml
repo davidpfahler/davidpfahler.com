@@ -10,7 +10,7 @@ baseurl: /
 
 # Website info
 title: David Pfahler
-description: I am a German trainee lawyer, software engineer, and data scientist.
+description: I am a German legal assessor, software engineer, and data scientist.
 cover: assets/images/blog-cover.jpg
 logo: False
 logo_dark: False
@@ -51,7 +51,7 @@ plugins:
 
 compress_images:
   images_path: "assets/images/**/*.{gif,png,jpg,jpeg,svg}"
-  
+
 imageoptim:
   svgo: False
 
