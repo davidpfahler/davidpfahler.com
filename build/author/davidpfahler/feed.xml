@@ -2,10 +2,10 @@
 
 <feed xmlns="http://www.w3.org/2005/Atom" >
   <generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator>
-  <link href="/author/davidpfahler/feed.xml" rel="self" type="application/atom+xml" />
-  <link href="/" rel="alternate" type="text/html" />
-  <updated>2019-10-31T14:41:08+01:00</updated>
-  <id>/author/davidpfahler/feed.xml</id>
+  <link href="http://localhost:4000/author/davidpfahler/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="http://localhost:4000/" rel="alternate" type="text/html" />
+  <updated>2020-02-28T15:17:07+01:00</updated>
+  <id>http://localhost:4000/author/davidpfahler/feed.xml</id>
 
   
   
@@ -16,7 +16,7 @@
   
 
   
-    <subtitle>I am a German trainee lawyer, software engineer, and data scientist.</subtitle>
+    <subtitle>I am a German legal assessor, software engineer, and data scientist.</subtitle>
   
 
   
@@ -32,12 +32,12 @@
 
   
     <entry>
-      <title type="html">How to train a fastai model and run it in iOS</title>
-      <link href="/fastai-in-ios" rel="alternate" type="text/html" title="How to train a fastai model and run it in iOS" />
+      <title type="html">How to train a fastai model and run it on iOS</title>
+      <link href="http://localhost:4000/fastai-in-ios" rel="alternate" type="text/html" title="How to train a fastai model and run it on iOS" />
       <published>2019-10-31T00:00:00+01:00</published>
       <updated>2019-10-31T00:00:00+01:00</updated>
-      <id>/fastai-in-ios</id>
-      <content type="html" xml:base="/fastai-in-ios">&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, converting it &lt;a href=&quot;https://developer.apple.com/documentation/coreml&quot;&gt;CoreML&lt;/a&gt; and running it inside a &lt;a href=&quot;https://facebook.github.io/react-native/&quot;&gt;react-native&lt;/a&gt; iOS app.&lt;/p&gt;
+      <id>http://localhost:4000/fastai-in-ios</id>
+      <content type="html" xml:base="http://localhost:4000/fastai-in-ios">&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, converting it to &lt;a href=&quot;https://developer.apple.com/documentation/coreml&quot;&gt;CoreML&lt;/a&gt; and running it inside a &lt;a href=&quot;https://facebook.github.io/react-native/&quot;&gt;react-native&lt;/a&gt; iOS app.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;Find the &lt;a href=&quot;https://github.com/davidpfahler/react-native-ml-app/blob/e4abc813f2c3e7e147454afbcbb4edd14c9ffe16/train_dog_classifier_with_fastai_export_to_CoreML.ipynb&quot;&gt;notebook&lt;/a&gt; and code in the &lt;a href=&quot;http://davidpfahler.github.io/react-ml-app&quot;&gt;GitHub repository&lt;/a&gt;!&lt;/p&gt;
@@ -96,7 +96,7 @@
       
 
       
-        <summary type="html">This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, converting it CoreML and running it inside a react-native iOS app.</summary>
+        <summary type="html">This post covers an end-to-end example project of training a resnet model with fastai and PyTorch, converting it to CoreML and running it inside a react-native iOS app.</summary>
       
 
       
@@ -105,11 +105,11 @@
   
     <entry>
       <title type="html">How to train a fastai model and run it in the browser</title>
-      <link href="/fastai-in-the-browser" rel="alternate" type="text/html" title="How to train a fastai model and run it in the browser" />
+      <link href="http://localhost:4000/fastai-in-the-browser" rel="alternate" type="text/html" title="How to train a fastai model and run it in the browser" />
       <published>2019-10-14T00:00:00+02:00</published>
       <updated>2019-10-14T00:00:00+02:00</updated>
-      <id>/fastai-in-the-browser</id>
-      <content type="html" xml:base="/fastai-in-the-browser">&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, exporting it to &lt;a href=&quot;https://onnx.ai/&quot;&gt;ONNX&lt;/a&gt; and running it in the browser inside a &lt;a href=&quot;https://reactjs.org&quot;&gt;React.js&lt;/a&gt; app.&lt;/p&gt;
+      <id>http://localhost:4000/fastai-in-the-browser</id>
+      <content type="html" xml:base="http://localhost:4000/fastai-in-the-browser">&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, exporting it to &lt;a href=&quot;https://onnx.ai/&quot;&gt;ONNX&lt;/a&gt; and running it in the browser inside a &lt;a href=&quot;https://reactjs.org&quot;&gt;React.js&lt;/a&gt; app.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;Try the &lt;a href=&quot;http://davidpfahler.github.io/react-ml-app&quot;&gt;demo&lt;/a&gt;!&lt;/p&gt;
@@ -185,11 +185,11 @@
   
     <entry>
       <title type="html">Understanding and Building a GraphQL Server</title>
-      <link href="/understanding-graphql-server" rel="alternate" type="text/html" title="Understanding and Building a GraphQL Server" />
+      <link href="http://localhost:4000/understanding-graphql-server" rel="alternate" type="text/html" title="Understanding and Building a GraphQL Server" />
       <published>2015-07-22T12:18:00+02:00</published>
       <updated>2015-07-22T12:18:00+02:00</updated>
-      <id>/understanding-graphql-server</id>
-      <content type="html" xml:base="/understanding-graphql-server">&lt;p&gt;If you are trying to build a GraphQL server today, you don’t have much
+      <id>http://localhost:4000/understanding-graphql-server</id>
+      <content type="html" xml:base="http://localhost:4000/understanding-graphql-server">&lt;p&gt;If you are trying to build a GraphQL server today, you don’t have much
 choice: You pretty much have to use the reference implementation
 &lt;a href=&quot;https://github.com/graphql/graphql-js&quot;&gt;graphql-js&lt;/a&gt;. The problem is, though, that there is almost no
 documentation for it, yet.&lt;/p&gt;

@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title> - Articles</title>
-    <description>I am a German trainee lawyer, software engineer, and data scientist.</description>
+    <description>I am a German legal assessor, software engineer, and data scientist.</description>
     <link>
-    </link>
+    http://localhost:4000</link>
     
       
       <item>
-        <title>How to train a fastai model and run it in iOS</title>
+        <title>How to train a fastai model and run it on iOS</title>
         
-          <description>&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, converting it &lt;a href=&quot;https://developer.apple.com/documentation/coreml&quot;&gt;CoreML&lt;/a&gt; and running it inside a &lt;a href=&quot;https://facebook.github.io/react-native/&quot;&gt;react-native&lt;/a&gt; iOS app.&lt;/p&gt;
+          <description>&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, converting it to &lt;a href=&quot;https://developer.apple.com/documentation/coreml&quot;&gt;CoreML&lt;/a&gt; and running it inside a &lt;a href=&quot;https://facebook.github.io/react-native/&quot;&gt;react-native&lt;/a&gt; iOS app.&lt;/p&gt;
 
 </description>
         
         <pubDate>Thu, 31 Oct 2019 00:00:00 +0100</pubDate>
         <link>
-        /fastai-in-ios</link>
-        <guid isPermaLink="true">/fastai-in-ios</guid>
+        http://localhost:4000/fastai-in-ios</link>
+        <guid isPermaLink="true">http://localhost:4000/fastai-in-ios</guid>
       </item>
       
     
@@ -31,8 +31,8 @@
         
         <pubDate>Mon, 14 Oct 2019 00:00:00 +0200</pubDate>
         <link>
-        /fastai-in-the-browser</link>
-        <guid isPermaLink="true">/fastai-in-the-browser</guid>
+        http://localhost:4000/fastai-in-the-browser</link>
+        <guid isPermaLink="true">http://localhost:4000/fastai-in-the-browser</guid>
       </item>
       
     
@@ -49,8 +49,8 @@ documentation for it, yet.&lt;/p&gt;
         
         <pubDate>Wed, 22 Jul 2015 12:18:00 +0200</pubDate>
         <link>
-        /understanding-graphql-server</link>
-        <guid isPermaLink="true">/understanding-graphql-server</guid>
+        http://localhost:4000/understanding-graphql-server</link>
+        <guid isPermaLink="true">http://localhost:4000/understanding-graphql-server</guid>
       </item>
       
     
