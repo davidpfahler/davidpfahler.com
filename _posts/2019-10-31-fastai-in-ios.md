@@ -17,7 +17,7 @@ summary: >
 
 This post covers an end-to-end example project of training a resnet model with [fastai](https://www.fast.ai) and [PyTorch](https://pytorch.org/), converting it to [CoreML](https://developer.apple.com/documentation/coreml) and running it inside a [react-native](https://facebook.github.io/react-native/) iOS app.
 
-> Find the [notebook](https://github.com/davidpfahler/react-native-ml-app/blob/e4abc813f2c3e7e147454afbcbb4edd14c9ffe16/train_dog_classifier_with_fastai_export_to_CoreML.ipynb) and code in the [GitHub repository](http://davidpfahler.github.io/react-ml-app)!
+> Find the [notebook](https://github.com/davidpfahler/react-native-ml-app/blob/e4abc813f2c3e7e147454afbcbb4edd14c9ffe16/train_dog_classifier_with_fastai_export_to_CoreML.ipynb) and code in the [GitHub repository](https://github.com/davidpfahler/react-native-ml-app)!
 
 My [last article](/fastai-in-the-browser) covered how to train a model in fastai and convert it to ONNX to run it in the browser using onnxjs and React.js. This post goes one step further and into a slightly different direction: The goal is to create a react-native iOS app, that performs the classification of dog breeds locally on the iPhone using CoreML. If you did not read my [last article](/fastai-in-the-browser) yet, I would recommend you catch up, because the following will assume you know about the training and exporting to ONNX parts already.
 
