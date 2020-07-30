@@ -4,7 +4,22 @@
     <title> - Articles</title>
     <description>I am a German lawyer, software engineer, and data scientist.</description>
     <link>
-    http://localhost:4000</link>
+    </link>
+    
+      
+      <item>
+        <title>Thinking in React Hooks</title>
+        
+          <description>&lt;p&gt;&lt;a href=&quot;https://reactjs.org/docs/thinking-in-react.html&quot;&gt;“Thinking in React”&lt;/a&gt; is a corner stone of the React documentation. This post shows how to implement the example using modern React, i.e. &lt;a href=&quot;https://reactjs.org/docs/components-and-props.html&quot;&gt;functional components&lt;/a&gt; and &lt;a href=&quot;https://reactjs.org/docs/hooks-intro.html&quot;&gt;hooks&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Thu, 30 Jul 2020 00:00:00 +0200</pubDate>
+        <link>
+        /thinking-in-react-hooks</link>
+        <guid isPermaLink="true">/thinking-in-react-hooks</guid>
+      </item>
+      
     
       
       <item>
@@ -16,8 +31,8 @@
         
         <pubDate>Thu, 31 Oct 2019 00:00:00 +0100</pubDate>
         <link>
-        http://localhost:4000/fastai-in-ios</link>
-        <guid isPermaLink="true">http://localhost:4000/fastai-in-ios</guid>
+        /fastai-in-ios</link>
+        <guid isPermaLink="true">/fastai-in-ios</guid>
       </item>
       
     
@@ -31,8 +46,8 @@
         
         <pubDate>Mon, 14 Oct 2019 00:00:00 +0200</pubDate>
         <link>
-        http://localhost:4000/fastai-in-the-browser</link>
-        <guid isPermaLink="true">http://localhost:4000/fastai-in-the-browser</guid>
+        /fastai-in-the-browser</link>
+        <guid isPermaLink="true">/fastai-in-the-browser</guid>
       </item>
       
     
@@ -49,8 +64,8 @@ documentation for it, yet.&lt;/p&gt;
         
         <pubDate>Wed, 22 Jul 2015 12:18:00 +0200</pubDate>
         <link>
-        http://localhost:4000/understanding-graphql-server</link>
-        <guid isPermaLink="true">http://localhost:4000/understanding-graphql-server</guid>
+        /understanding-graphql-server</link>
+        <guid isPermaLink="true">/understanding-graphql-server</guid>
       </item>
       
     
