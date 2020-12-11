@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title> - Articles</title>
+    <description>I am a German lawyer, software engineer, and data scientist.</description>
+    <link>
+    </link>
+    
+      
+      <item>
+        <title>Thinking in React Hooks</title>
+        
+          <description>&lt;p&gt;&lt;a href=&quot;https://reactjs.org/docs/thinking-in-react.html&quot;&gt;“Thinking in React”&lt;/a&gt; is a corner stone of the React documentation. This post shows how to implement the example using modern React, i.e. &lt;a href=&quot;https://reactjs.org/docs/components-and-props.html&quot;&gt;functional components&lt;/a&gt; and &lt;a href=&quot;https://reactjs.org/docs/hooks-intro.html&quot;&gt;hooks&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Thu, 30 Jul 2020 00:00:00 +0000</pubDate>
+        <link>
+        /thinking-in-react-hooks</link>
+        <guid isPermaLink="true">/thinking-in-react-hooks</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>How to train a fastai model and run it on iOS</title>
+        
+          <description>&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, converting it to &lt;a href=&quot;https://developer.apple.com/documentation/coreml&quot;&gt;CoreML&lt;/a&gt; and running it inside a &lt;a href=&quot;https://facebook.github.io/react-native/&quot;&gt;react-native&lt;/a&gt; iOS app.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
+        <link>
+        /fastai-in-ios</link>
+        <guid isPermaLink="true">/fastai-in-ios</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>How to train a fastai model and run it in the browser</title>
+        
+          <description>&lt;p&gt;This post covers an end-to-end example project of training a resnet model with &lt;a href=&quot;https://www.fast.ai&quot;&gt;fastai&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, exporting it to &lt;a href=&quot;https://onnx.ai/&quot;&gt;ONNX&lt;/a&gt; and running it in the browser inside a &lt;a href=&quot;https://reactjs.org&quot;&gt;React.js&lt;/a&gt; app.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
+        <link>
+        /fastai-in-the-browser</link>
+        <guid isPermaLink="true">/fastai-in-the-browser</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Understanding and Building a GraphQL Server</title>
+        
+          <description>&lt;p&gt;If you are trying to build a GraphQL server today, you don’t have much
+choice: You pretty much have to use the reference implementation
+&lt;a href=&quot;https://github.com/graphql/graphql-js&quot;&gt;graphql-js&lt;/a&gt;. The problem is, though, that there is almost no
+documentation for it, yet.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Wed, 22 Jul 2015 10:18:00 +0000</pubDate>
+        <link>
+        /understanding-graphql-server</link>
+        <guid isPermaLink="true">/understanding-graphql-server</guid>
+      </item>
+      
+    
+  </channel>
+</rss>
